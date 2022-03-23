@@ -23,6 +23,8 @@ class DrawBlockingOnUI {
 
       val ca = ElemCA(width, height)
       ca.setNumber(rule)
+
+      // blocking code
       ca.drawCA()
 
       imageView.setImageBitmap(ca.getCA())

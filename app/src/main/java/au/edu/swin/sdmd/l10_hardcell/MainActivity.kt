@@ -15,16 +15,21 @@ const val WIDTH_LONG = 2000
 
 //not used: val BACKGROUND = Executors.newFixedThreadPool(2)
 class MainActivity : AppCompatActivity() {
-    private var width: Int = WIDTH_SHORT
-    private var height: Int = HEIGHT_SHORT
-
-    lateinit var progressBar: ProgressBar
+//    private var width: Int = WIDTH_SHORT
+//    private var height: Int = HEIGHT_SHORT
+//
+//    lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        var width: Int = WIDTH_SHORT
+        var height: Int = HEIGHT_SHORT
+
+//        var progressBar: ProgressBar
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        var progressBar = findViewById<ProgressBar>(R.id.progressBar)
 
         // changing size of image to change drawing time
         val switchSize = findViewById<Switch>(R.id.largeSwitch)
@@ -44,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         onUI.setOnClickListener {
             // drawCA(::drawCASync, it)
             val rule = getRule();
-            if (rule > -1 ) {
+            if (rule > -1) {
                 updateButtonOnClick(it)
                 val imageView = findViewById<ImageView>(R.id.imageView)
                 DrawBlockingOnUI.draw(rule, imageView, width, height)
@@ -65,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // using coroutines
+        // using coroutines (recommended)
         DrawThreadedCoroutine.init(progressBar)
         val suspendButton = findViewById<Button>(R.id.suspend)
         suspendButton.setOnClickListener {

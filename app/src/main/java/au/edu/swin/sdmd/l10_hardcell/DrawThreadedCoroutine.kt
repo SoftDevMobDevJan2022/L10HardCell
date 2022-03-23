@@ -26,23 +26,22 @@ class DrawThreadedCoroutine {
      fun draw(rule: Int,
              imageView: ImageView,
              width: Int, height: Int) {
+      imageView.setImageBitmap(null)
+      progressBar.visibility = View.VISIBLE
+
+      val ca = ElemCA(width, height)
+      ca.setNumber(rule)
+
       launch {
-        imageView.setImageBitmap(null)
-        progressBar.visibility = View.VISIBLE
-
-        val ca = ElemCA(width, height)
-        ca.setNumber(rule)
-
         // one approach -- note the icon in the border
         val bm = withContext(Dispatchers.Default) {
           ca.processCA()
         }
-        imageView.setImageBitmap(bm)
 
+        imageView.setImageBitmap(bm)
         // An alternative approach, for those who like async/await
         // val bm = async { ca.processCA() }
         // imageView.setImageBitmap(bm.await())
-
         progressBar.visibility = View.INVISIBLE
       }
     }
