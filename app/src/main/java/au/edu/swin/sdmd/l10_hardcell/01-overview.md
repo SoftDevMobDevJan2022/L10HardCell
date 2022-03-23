@@ -8,6 +8,11 @@ and that are generated following a particular pattern. They are
 handy for this task as they take some time to generate. You note you have a switch
 to change between a small and large grid.
 
+This app has been improved from the original version to have 3 separate helper classes, one to demonstrate each type of drawing:
+1. DrawBlockingOnUI: drawing on main thread
+2. DrawThreadedLooper: drawing using Handler and LooperThread
+3. DrawThreadedCoroutine: drawing using coroutine
+
 Firstly, try running the code on the main thread. When in large mode, try clicking
 on other buttons or the input field. This should trigger an ANR dialog eventually.
 

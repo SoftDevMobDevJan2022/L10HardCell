@@ -3,6 +3,7 @@ package au.edu.swin.sdmd.l10_hardcell
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.Looper
 import android.os.Message
 import android.util.Log
 import androidx.lifecycle.Lifecycle
@@ -21,14 +22,10 @@ class LooperThread<in T>(private val responseHandler: Handler,
     private lateinit var requestHandler: Handler
     private val requestMap = ConcurrentHashMap<T, ElemCA>()
 
-    fun queueCA(target: T, ca: ElemCA) {
-        Log.i(TAG, "Got a CA!: " + ca.code)
-        requestMap[target] = ca
-        requestHandler.obtainMessage(CREATE, target).sendToTarget()
-    }
-
+    /* HandlerThread */
     override fun onLooperPrepared() {
-        requestHandler = object : Handler() {
+        /* create a request handler to send processing message to event queue */
+        requestHandler = object : Handler(Looper.myLooper()!!) {
             override fun handleMessage(msg: Message) {
                 if (msg.what == CREATE) {
                     val target = msg.obj as T
@@ -39,7 +36,7 @@ class LooperThread<in T>(private val responseHandler: Handler,
         }
     }
 
-
+    /* draw the image and inform responseHandler of the result */
     private fun handleRequest(target: T) {
         val ca = requestMap[target] as ElemCA
         ca.drawCA()
@@ -53,6 +50,13 @@ class LooperThread<in T>(private val responseHandler: Handler,
             requestMap.remove(target)
             onCADrawn(target, bitmap)
         })
+    }
+
+    /* invoked by client to request performing image computation */
+    fun queueCA(target: T, ca: ElemCA) {
+        Log.i(TAG, "Got a CA!: " + ca.code)
+        requestMap[target] = ca
+        requestHandler.obtainMessage(CREATE, target).sendToTarget()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
@@ -74,9 +78,9 @@ class LooperThread<in T>(private val responseHandler: Handler,
         requestMap.clear()
     }
 
+    /* HandlerThread */
     override fun quit(): Boolean {
         hasQuit = true
         return super.quit()
     }
-
 }
