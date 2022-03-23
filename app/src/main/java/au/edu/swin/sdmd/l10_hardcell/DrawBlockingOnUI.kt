@@ -1,10 +1,8 @@
 package au.edu.swin.sdmd.l10_hardcell
 
-import android.os.Handler
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.lifecycle.Lifecycle
 
 class DrawBlockingOnUI {
   companion object {
