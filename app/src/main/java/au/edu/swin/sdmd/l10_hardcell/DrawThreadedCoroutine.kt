@@ -7,12 +7,16 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class DrawThreadedCoroutine {
-  companion object : CoroutineScope {
+  companion object DrawCoroutine : CoroutineScope {
     // setting up
     private lateinit var progressBar: ProgressBar
     private lateinit var job: Job
 
-    /* From CoroutineScope */
+    /* override coroutineContext:
+        to launch the drawing thread from the main thread with job.
+       Why from the MAIN thread? so that we can update the view from
+       the drawing thread
+         */
     override val coroutineContext: CoroutineContext
       get() = Dispatchers.Main + job
 

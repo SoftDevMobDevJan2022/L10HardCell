@@ -8,7 +8,7 @@ import android.widget.ProgressBar
 import androidx.lifecycle.Lifecycle
 
 class DrawThreadedLooper {
-  companion object {
+  companion object DrawHandler {
     // setting up for looper thread
     lateinit var looperThread: LooperThread<ImageView>
     lateinit var progressBar: ProgressBar

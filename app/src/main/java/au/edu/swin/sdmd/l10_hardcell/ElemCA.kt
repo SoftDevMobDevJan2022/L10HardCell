@@ -75,6 +75,9 @@ class ElemCA(val width: Int, val height: Int) {
         return ca
     }
 
+    /**
+     * Invoke #drawCA() and return the result
+     */
     fun processCA(): Bitmap {
         drawCA()
         return ca
